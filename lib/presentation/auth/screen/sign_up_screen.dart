@@ -49,16 +49,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   BasicTextField(
                     hint: "Name",
                     controller: nameController,
+                    obscureText: false,
                   ),
                   const SizedBox(height: 20),
                   BasicTextField(
                     hint: "Enter email",
                     controller: emailController,
+                    obscureText: false,
                   ),
                   const SizedBox(height: 20),
                   BasicTextField(
                     hint: "Enter password",
                     controller: passwordController,
+                    obscureText: true,
                   ),
                   const SizedBox(height: 80),
                   Padding(
@@ -85,8 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const SignInScreen(),
+                          builder: (BuildContext context) => SignInScreen(),
                         ),
                       );
                     },
