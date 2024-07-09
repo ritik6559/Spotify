@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "491849673270",
+    "project_id": "spotify-clone-7b248",
+    "storage_bucket": "spotify-clone-7b248.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:491849673270:android:f6e50b8f779f481401c697",
+        "android_client_info": {
+          "package_name": "com.example.tune_box"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD45QutX8r9C3PM3U7BQR83HEEkkGJM66A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
