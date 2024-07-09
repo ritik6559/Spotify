@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:tune_box/data/models/auth/create_user_req.dart';
 import 'package:tune_box/data/sources/auth/auth_firebase_service.dart';
 import 'package:tune_box/domain/repository/auth/auth_repository.dart';
@@ -15,7 +16,7 @@ class AuthRepositoryImplementation extends AuthRepository {
   }
 
   @override
-  Future<void> signUp(CreateUserReq createUserReq) async {
-    await sl<AuthFirebaseService>().signUp(createUserReq);
+  Future<Either> signUp(CreateUserReq createUserReq) async {
+    return await sl<AuthFirebaseService>().signUp(createUserReq);
   }
 }
