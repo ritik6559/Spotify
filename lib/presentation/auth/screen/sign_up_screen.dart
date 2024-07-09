@@ -3,7 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tune_box/common/widgets/app_bar.dart';
 import 'package:tune_box/common/widgets/button.dart';
 import 'package:tune_box/common/widgets/textfield.dart';
+import 'package:tune_box/data/models/auth/create_user_req.dart';
+import 'package:tune_box/domain/usecases/auth/signup_usecase.dart';
 import 'package:tune_box/presentation/auth/screen/sign_in_screen.dart';
+import 'package:tune_box/presentation/root/screens/root.dart';
+import 'package:tune_box/service_locator.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -67,7 +71,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: BasicAppButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        var res = await sl<SignupUsecase>().call(
+                          params: CreateUserReq(
+                            name: nameController.text,
+                            email: emailController.text,
+                            password: passwordController.text,
+                          ),
+                        );
+
+                        res.fold(
+                          (l) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(l),
+                              ),
+                            );
+                          },
+                          (r) {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) => const RootScreen(),
+                              ),
+                              (route) => false,
+                            );
+                          },
+                        );
+                      },
                       title: "Create Account",
                     ),
                   ),
