@@ -47,7 +47,10 @@ class SignInScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            BasicAppButton(onPressed: () {}, title: 'Sign In')
+            BasicAppButton(
+              onPressed: () {},
+              title: 'Sign In',
+            ),
           ],
         ),
       ),

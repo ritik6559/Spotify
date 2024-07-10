@@ -1,17 +1,34 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tune_box/data/models/auth/create_user_req.dart';
+import 'package:tune_box/data/models/auth/signin_user_req.dart';
 
 abstract class AuthFirebaseService {
   Future<Either> signUp(CreateUserReq createUserReq);
-  Future<void> signIn();
+  Future<Either> signIn(SigninUserReq signUserReq);
   Future<void> signOut();
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService {
   @override
-  Future<void> signIn() {
-    throw UnimplementedError();
+  Future<Either> signIn(SigninUserReq signUserReq) async{
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: signUserReq.email,
+        password: signUserReq.password,
+      );
+      return const Right("Signin was SuccessFul");
+    } on FirebaseAuthException catch (e) {
+      String message = '';
+
+      if (e.code == 'invalid-email') {
+        message = 'Wrong email';
+      } else if (e.code == 'invalid-credential') {
+        message = "Wrong password";
+      }
+      return Left(message);
+    }
+    
   }
 
   @override
@@ -26,7 +43,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
         email: createUserReq.email,
         password: createUserReq.password,
       );
-      return const Right("Signup wa SuccessFul");
+      return const Right("Signup was SuccessFul");
     } on FirebaseAuthException catch (e) {
       String message = '';
 
