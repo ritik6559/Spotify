@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tune_box/domain/entities/song/song_entity.dart';
 
 class SongModel {
   final String title;
@@ -33,6 +34,18 @@ class SongModel {
       artist: map['artist'] ?? '',
       duration: map['duration'] ?? 0,
       release: map['release'],
+    );
+  }
+}
+
+extension SongModelX on SongModel {
+
+  SongEntity toEntity() {
+    return SongEntity(
+      title: title,
+      artist: artist,
+      duration: duration,
+      release: release,
     );
   }
 }
