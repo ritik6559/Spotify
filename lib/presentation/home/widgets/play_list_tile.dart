@@ -22,32 +22,32 @@ class PlayListTile extends StatelessWidget {
             );
           }
           if (state is PlayListLoaded) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Playlist',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 22),
+            return Column(
+              children: [
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Playlist',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
                       ),
-                      Text(
-                        'See More',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Color(0xffC6C6C6)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  _songs(state.songs)
-                ],
-              ),
+                    ),
+                    Text(
+                      'See More',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: Color(0xffC6C6C6)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                _songs(
+                  state.songs,
+                )
+              ],
             );
           }
           return Container();
@@ -92,15 +92,17 @@ class PlayListTile extends StatelessWidget {
                         Text(
                           songs[index].title,
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
                         ),
-                        const SizedBox(
-                          height: 5,
-                        ),
+                        const SizedBox(height: 5),
                         Text(
                           songs[index].artist,
                           style: const TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 11),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                          ),
                         ),
                       ],
                     )
