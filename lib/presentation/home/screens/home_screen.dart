@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:tune_box/common/helpers/is_dark_mode.dart';
 import 'package:tune_box/common/widgets/app_bar.dart';
 import 'package:tune_box/core/configs/theme/app_colors.dart';
+import 'package:tune_box/presentation/home/widgets/news_songs_tile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,6 +42,19 @@ class _HomeScreenState extends State<HomeScreen>
               _homeTopCard(),
               const SizedBox(height: 30),
               _tabs(),
+              SizedBox(
+
+                height: 260,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    const NewsSongsTile(),
+                    Container(),
+                    Container(),
+                    Container()
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -83,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen>
         fontSize: 20,
       ),
       tabAlignment: TabAlignment.start,
-      labelPadding: const EdgeInsets.symmetric(horizontal: 25,vertical: 15),
+      labelPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       dividerHeight: 0,
       indicatorColor: AppColors.primary,
       indicatorPadding: const EdgeInsets.symmetric(
