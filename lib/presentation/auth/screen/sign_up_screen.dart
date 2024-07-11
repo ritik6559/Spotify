@@ -6,7 +6,7 @@ import 'package:tune_box/common/widgets/textfield.dart';
 import 'package:tune_box/data/models/auth/create_user_req.dart';
 import 'package:tune_box/domain/usecases/auth/signup_usecase.dart';
 import 'package:tune_box/presentation/auth/screen/sign_in_screen.dart';
-import 'package:tune_box/presentation/root/screens/root.dart';
+import 'package:tune_box/presentation/home/screens/home_screen.dart';
 import 'package:tune_box/service_locator.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -91,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           (r) {
                             Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                builder: (context) => const RootScreen(),
+                                builder: (context) => const HomeScreen(),
                               ),
                               (route) => false,
                             );

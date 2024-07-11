@@ -6,7 +6,7 @@ import 'package:tune_box/common/widgets/textfield.dart';
 import 'package:tune_box/data/models/auth/signin_user_req.dart';
 import 'package:tune_box/domain/usecases/auth/signin_usecase.dart';
 import 'package:tune_box/presentation/auth/screen/sign_up_screen.dart';
-import 'package:tune_box/presentation/root/screens/root.dart';
+import 'package:tune_box/presentation/home/screens/home_screen.dart';
 import 'package:tune_box/service_locator.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -74,7 +74,7 @@ class SignInScreen extends StatelessWidget {
                   (r) {
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                        builder: (context) => const RootScreen(),
+                        builder: (context) => const HomeScreen(),
                       ),
                       (route) => false,
                     );
