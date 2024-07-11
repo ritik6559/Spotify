@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tune_box/common/helpers/is_dark_mode.dart';
 import 'package:tune_box/core/configs/constants/constants.dart';
+import 'package:tune_box/core/configs/theme/app_colors.dart';
 import 'package:tune_box/presentation/home/bloc/new_songs_state.dart';
 import 'package:tune_box/presentation/home/bloc/news_songs_cubit.dart';
 
@@ -38,15 +40,36 @@ class NewsSongsTile extends StatelessWidget {
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                        '${AppUrls.firestorage}$image.jpeg?${AppUrls.mediaAlt}')),
                                 borderRadius: BorderRadius.circular(30),
                               ),
-                              child: Image.network(
-                                  '${AppUrls.firestorage}$image.jpeg?${AppUrls.mediaAlt}'),
+                              child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  transform:
+                                      Matrix4.translationValues(10, 10, 0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: context.isDarkMode
+                                        ? AppColors.darkGrey
+                                        : const Color(0xffE6E6E6),
+                                  ),
+                                  child: Icon(
+                                    Icons.play_arrow_rounded,
+                                    color: context.isDarkMode
+                                        ? const Color(0xff959595)
+                                        : const Color(0xff555555),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
+                          const SizedBox(height: 10),
                           Text(
                             songs[index].title,
                             style: const TextStyle(
@@ -66,7 +89,7 @@ class NewsSongsTile extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (context, index) => const SizedBox(
-                  width: 14,
+                  width: 20,
                 ),
                 itemCount: songs.length,
               );

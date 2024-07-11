@@ -4,6 +4,7 @@ import 'package:tune_box/common/helpers/is_dark_mode.dart';
 import 'package:tune_box/common/widgets/app_bar.dart';
 import 'package:tune_box/core/configs/theme/app_colors.dart';
 import 'package:tune_box/presentation/home/widgets/news_songs_tile.dart';
+import 'package:tune_box/presentation/home/widgets/play_list_tile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen>
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen>
               const SizedBox(height: 30),
               _tabs(),
               SizedBox(
-                height: 260,
+                height: 230,
                 child: TabBarView(
                   controller: _tabController,
                   children: [
@@ -53,7 +54,9 @@ class _HomeScreenState extends State<HomeScreen>
                     Container()
                   ],
                 ),
-              )
+              ),
+              const SizedBox(height: 30),
+              const PlayListTile(),
             ],
           ),
         ),
@@ -93,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen>
       labelColor: context.isDarkMode ? Colors.white : Colors.black,
       labelStyle: const TextStyle(
         fontWeight: FontWeight.w500,
-        fontSize: 20,
+        fontSize: 18,
       ),
       tabAlignment: TabAlignment.start,
       labelPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),

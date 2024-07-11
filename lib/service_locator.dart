@@ -8,6 +8,7 @@ import 'package:tune_box/domain/repository/song/song_repository.dart';
 import 'package:tune_box/domain/usecases/auth/signin_usecase.dart';
 import 'package:tune_box/domain/usecases/auth/signup_usecase.dart';
 import 'package:tune_box/domain/usecases/song/get_news_songs.dart';
+import 'package:tune_box/domain/usecases/song/get_playlist.dart';
 
 final sl = GetIt.instance;
 
@@ -41,6 +42,10 @@ Future<void> initializeDependencies() async {
 
  sl.registerSingleton<GetNewsSongsUseCase>(
   GetNewsSongsUseCase()
+ );
+
+ sl.registerSingleton<GetPlayListUseCase>(
+  GetPlayListUseCase()
  );
 }
 
