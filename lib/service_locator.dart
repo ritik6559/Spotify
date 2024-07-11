@@ -15,32 +15,32 @@ Future<void> initializeDependencies() async {
 
 
   sl.registerSingleton<AuthFirebaseService>(
-    AuthFirebaseServiceImpl()
-  );
+  AuthFirebaseServiceImpl()
+ );
 
-  sl.registerSingleton<AuthRepository>(
-    AuthRepositoryImplementation()
-  );
+ sl.registerSingleton<SongFirebaseService>(
+  SongFirebaseServiceImpl()
+ );
+ 
 
-  sl.registerSingleton<SignupUsecase>(
-    SignupUsecase()
-  );
+ sl.registerSingleton<AuthRepository>(
+  AuthRepositoryImplementation()
+ );
 
-  sl.registerSingleton<SigninUsecase>(
-    SigninUsecase()
-  );
+ sl.registerSingleton<SongsRepository>(
+  SongRepositoryImpl()
+ );
 
-  sl.registerSingleton<GetNewsSongsUseCase>(
-    GetNewsSongsUseCase()
-  );
+ sl.registerSingleton<SignupUsecase>(
+  SignupUsecase()
+ );
 
-  sl.registerSingleton<SongFirebaseService>(
-    SongFirebaseServiceImpl()
-  );
+ sl.registerSingleton<SigninUsecase>(
+  SigninUsecase()
+ );
 
-
-  sl.registerSingleton<SongRepository>(
-    SongRepositoryImpl()
-  );
-
+ sl.registerSingleton<GetNewsSongsUseCase>(
+  GetNewsSongsUseCase()
+ );
 }
+

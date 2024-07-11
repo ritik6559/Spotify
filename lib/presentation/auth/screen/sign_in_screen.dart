@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tune_box/common/helpers/is_dark_mode.dart';
 import 'package:tune_box/common/widgets/app_bar.dart';
 import 'package:tune_box/common/widgets/button.dart';
 import 'package:tune_box/common/widgets/textfield.dart';
@@ -67,7 +68,10 @@ class SignInScreen extends StatelessWidget {
                   (l) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(l),
+                        content: Text(l,
+                        style: TextStyle(
+                          color: context.isDarkMode ? Colors.black : Colors.white
+                        ),),
                       ),
                     );
                   },

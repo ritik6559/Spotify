@@ -23,6 +23,7 @@ dependencies:
   dartz: ^0.10.1
   font_awesome_flutter: ^10.7.0
   shared_preferences: ^2.2.3
+  firebase_storage: ^12.1.1
 
 dev_dependencies:
   flutter_test:

@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen>
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -43,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen>
               const SizedBox(height: 30),
               _tabs(),
               SizedBox(
-
                 height: 260,
                 child: TabBarView(
                   controller: _tabController,

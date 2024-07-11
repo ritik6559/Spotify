@@ -1,14 +1,13 @@
+
 import 'package:tune_box/domain/entities/song/song_entity.dart';
 
-abstract class NewSongsState {}
+abstract class NewsSongsState {}
 
-class NewsSongsLoading extends NewSongsState {}
+class NewsSongsLoading extends NewsSongsState {}
 
-class NewsSongsLoaded extends NewSongsState {
+class NewsSongsLoaded extends NewsSongsState {
   final List<SongEntity> songs;
-  NewsSongsLoaded({
-    required this.songs,
-  });
+  NewsSongsLoaded({required this.songs});
 }
 
-class NewsSongsLoadedFailue extends NewSongsState{}
+class NewsSongsLoadFailure extends NewsSongsState {}

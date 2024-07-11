@@ -19,13 +19,14 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
           .get();
 
       for (var element in data.docs) {
-        var song = SongModel.fromMap(element.data());
+        var song = SongModel.fromJson(element.data());
         songs.add(
           song.toEntity(),
         );
       }
       return Right(songs);
     } catch (e) {
+      print(e);
       return const Left("An error occured.");
     }
   }

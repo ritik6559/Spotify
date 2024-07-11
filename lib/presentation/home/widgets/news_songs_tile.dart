@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tune_box/domain/entities/song/song_entity.dart';
+import 'package:tune_box/core/configs/constants/constants.dart';
 import 'package:tune_box/presentation/home/bloc/new_songs_state.dart';
 import 'package:tune_box/presentation/home/bloc/news_songs_cubit.dart';
 
@@ -12,45 +12,70 @@ class NewsSongsTile extends StatelessWidget {
     return BlocProvider(
       create: (_) => NewsSongsCubit()..getNewsSongs(),
       child: SizedBox(
-        width: 208,
-        child: BlocBuilder<NewsSongsCubit, NewSongsState>(
+        height: 200,
+        child: BlocBuilder<NewsSongsCubit, NewsSongsState>(
           builder: (context, state) {
             if (state is NewsSongsLoading) {
               return Container(
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
+                  alignment: Alignment.center,
+                  child: const CircularProgressIndicator());
             }
+
             if (state is NewsSongsLoaded) {
-              return _songs(
-                state.songs
+              final songs = state.songs;
+              return ListView.separated(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  var image = Uri.encodeComponent(songs[index].title);
+                  return GestureDetector(
+                    onTap: () {},
+                    child: SizedBox(
+                      width: 160,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Image.network(
+                                  '${AppUrls.firestorage}$image.jpeg?${AppUrls.mediaAlt}'),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            songs[index].title,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 16),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            songs[index].artist,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 12),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(
+                  width: 14,
+                ),
+                itemCount: songs.length,
               );
             }
+
             return Container();
           },
         ),
       ),
-    );
-  }
-
-  Widget _songs(
-    List<SongEntity> songs
-  ) {
-    return ListView.separated(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      itemCount: songs.length,
-      separatorBuilder: (context, index) {
-        return const SizedBox(width: 14);
-      },
-      itemBuilder: (context, index) {
-        return Column(
-          children: [
-
-          ],
-        );
-      },
     );
   }
 }

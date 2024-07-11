@@ -54,14 +54,7 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
           ).toMap());
       return const Right("Signup was SuccessFul");
     } on FirebaseAuthException catch (e) {
-      String message = '';
-
-      if (e.code == 'weak-password') {
-        message = 'The password is weak';
-      } else if (e.code == 'email-already-in-use') {
-        message = "The mail is already in use";
-      }
-      return Left(message);
+      return Left(e.toString());
     }
   }
 }
