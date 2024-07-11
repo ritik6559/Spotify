@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tune_box/data/models/auth/create_user_req.dart';
 import 'package:tune_box/data/models/auth/signin_user_req.dart';
+import 'package:tune_box/data/models/user/user_model.dart';
 
 abstract class AuthFirebaseService {
   Future<Either> signUp(CreateUserReq createUserReq);
@@ -11,7 +13,7 @@ abstract class AuthFirebaseService {
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService {
   @override
-  Future<Either> signIn(SigninUserReq signUserReq) async{
+  Future<Either> signIn(SigninUserReq signUserReq) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: signUserReq.email,
@@ -28,7 +30,6 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
       }
       return Left(message);
     }
-    
   }
 
   @override
@@ -39,10 +40,18 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
   @override
   Future<Either> signUp(CreateUserReq createUserReq) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: createUserReq.email,
         password: createUserReq.password,
       );
+
+      FirebaseFirestore.instance.collection("users").add(
+        UserModel(
+            id: userCredential.user!.uid,
+            name: createUserReq.name,
+            email: createUserReq.email,
+          ).toMap());
       return const Right("Signup was SuccessFul");
     } on FirebaseAuthException catch (e) {
       String message = '';
