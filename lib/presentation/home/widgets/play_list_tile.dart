@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tune_box/common/helpers/is_dark_mode.dart';
+import 'package:tune_box/common/widgets/favorite_button.dart';
 import 'package:tune_box/core/configs/theme/app_colors.dart';
 import 'package:tune_box/domain/entities/song/song_entity.dart';
 import 'package:tune_box/presentation/home/bloc/play_list_cubit.dart';
@@ -121,13 +122,7 @@ class PlayListTile extends StatelessWidget {
                   children: [
                     Text(songs[index].duration.toString().replaceAll('.', ':')),
                     const SizedBox(width: 20),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.favorite_border_outlined,
-                        color: AppColors.darkGrey,
-                      ),
-                    )
+                    FavoriteButton(songEntity: songs[index]),
                   ],
                 ),
               ],
