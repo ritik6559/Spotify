@@ -108,17 +108,19 @@ class PlayListTile extends StatelessWidget {
                     )
                   ],
                 ),
-                // Row(
-                //   children: [
-                //     Text(
-                //       songs[index].duration.toString().replaceAll('.', ':')
-                //     ),
-                //     const SizedBox(width: 20,),
-                //     FavoriteButton(
-                //       songEntity: songs[index],
-                //     ),
-                //   ],
-                // ),
+                Row(
+                  children: [
+                    Text(songs[index].duration.toString().replaceAll('.', ':')),
+                    const SizedBox(width: 20),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.favorite_rounded,
+                        color: AppColors.darkGrey,
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
           );
