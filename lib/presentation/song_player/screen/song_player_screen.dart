@@ -163,7 +163,7 @@ class SongPlayerScreen extends StatelessWidget {
                           ? Icons.pause
                           : Icons.play_arrow),
                 ),
-              ),
+              )
             ],
           );
         }
