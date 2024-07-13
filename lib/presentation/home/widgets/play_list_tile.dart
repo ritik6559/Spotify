@@ -5,6 +5,7 @@ import 'package:tune_box/core/configs/theme/app_colors.dart';
 import 'package:tune_box/domain/entities/song/song_entity.dart';
 import 'package:tune_box/presentation/home/bloc/play_list_cubit.dart';
 import 'package:tune_box/presentation/home/bloc/play_list_state.dart';
+import 'package:tune_box/presentation/song_player/screen/song_player_screen.dart';
 
 class PlayListTile extends StatelessWidget {
   const PlayListTile({super.key});
@@ -62,7 +63,15 @@ class PlayListTile extends StatelessWidget {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SongPlayerScreen(
+                    songEntity: songs[index],
+                  ),
+                ),
+              );
+            },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -115,7 +124,7 @@ class PlayListTile extends StatelessWidget {
                     IconButton(
                       onPressed: () {},
                       icon: const Icon(
-                        Icons.favorite_rounded,
+                        Icons.favorite_border_outlined,
                         color: AppColors.darkGrey,
                       ),
                     )

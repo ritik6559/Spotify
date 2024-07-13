@@ -5,6 +5,7 @@ import 'package:tune_box/core/configs/constants/constants.dart';
 import 'package:tune_box/core/configs/theme/app_colors.dart';
 import 'package:tune_box/presentation/home/bloc/new_songs_state.dart';
 import 'package:tune_box/presentation/home/bloc/news_songs_cubit.dart';
+import 'package:tune_box/presentation/song_player/screen/song_player_screen.dart';
 
 class NewsSongsTile extends StatelessWidget {
   const NewsSongsTile({super.key});
@@ -31,7 +32,13 @@ class NewsSongsTile extends StatelessWidget {
                 itemBuilder: (context, index) {
                   var image = Uri.encodeComponent(songs[index].title);
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SongPlayerScreen(songEntity: songs[index]),
+                        ),
+                      );
+                    },
                     child: SizedBox(
                       width: 160,
                       child: Column(
@@ -41,7 +48,7 @@ class NewsSongsTile extends StatelessWidget {
                             child: Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  fit: BoxFit.cover,
+                                    fit: BoxFit.cover,
                                     image: NetworkImage(
                                         '${AppUrls.firestorage}$image.jpeg?${AppUrls.mediaAlt}')),
                                 borderRadius: BorderRadius.circular(30),
