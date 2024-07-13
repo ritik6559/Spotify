@@ -50,7 +50,7 @@ class NewsSongsTile extends StatelessWidget {
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
-                                        '${AppUrls.firestorage}$image.jpeg?${AppUrls.mediaAlt}')),
+                                        '${AppUrls.coverFirestorage}$image.jpeg?${AppUrls.mediaAlt}')),
                                 borderRadius: BorderRadius.circular(30),
                               ),
                               child: Align(
