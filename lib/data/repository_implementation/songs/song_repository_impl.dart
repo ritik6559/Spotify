@@ -21,4 +21,10 @@ class SongRepositoryImpl extends SongsRepository {
     // TODO: implement addOrRemoveFavoriteSong
     throw UnimplementedError();
   }
+  
+  @override
+  Future<bool> isFavoriteSong(String songId) {
+    // TODO: implement isFavoriteSong
+    throw UnimplementedError();
+  }
 }
