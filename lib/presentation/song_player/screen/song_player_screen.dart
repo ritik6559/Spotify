@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tune_box/common/widgets/app_bar.dart';
+import 'package:tune_box/common/widgets/favorite_button.dart';
 import 'package:tune_box/core/configs/constants/constants.dart';
 import 'package:tune_box/domain/entities/song/song_entity.dart';
 import 'package:tune_box/presentation/song_player/bloc/song_player_cubit.dart';
@@ -98,9 +99,9 @@ class SongPlayerScreen extends StatelessWidget {
             ),
           ],
         ),
-        // FavoriteButton(
-        //   songEntity: songEntity
-        // )
+        FavoriteButton(
+          songEntity: songEntity
+        )
       ],
     );
   }

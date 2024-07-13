@@ -35,18 +35,19 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => ThemeCubit(),
         ),
-        
       ],
-      child: BlocBuilder<ThemeCubit, ThemeMode>(builder: (context, mode) {
-        return MaterialApp(
-          title: 'Tune Box',
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: mode,
-          debugShowCheckedModeBanner: false,
-          home: const SplashScreen(),
-        );
-      }),
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, mode) {
+          return MaterialApp(
+            title: 'Tune Box',
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: mode,
+            debugShowCheckedModeBanner: false,
+            home: const SplashScreen(),
+          );
+        },
+      ),
     );
   }
 }
