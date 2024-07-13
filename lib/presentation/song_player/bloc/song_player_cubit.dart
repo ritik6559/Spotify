@@ -28,7 +28,6 @@ class SongPlayerCubit extends Cubit<SongPlayerState> {
       await audioPlayer.setUrl(url);
       emit(SongPlayerLoaded());
     } catch (e) {
-      print(e);
       emit(SongPlayerFailure());
     }
   }
