@@ -1,52 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tune_box/common/helpers/is_dark_mode.dart';
 import 'package:tune_box/common/widgets/app_bar.dart';
 import 'package:tune_box/core/configs/constants/constants.dart';
-import 'package:tune_box/core/configs/theme/app_colors.dart';
 import 'package:tune_box/domain/entities/song/song_entity.dart';
 import 'package:tune_box/presentation/song_player/bloc/song_player_cubit.dart';
 import 'package:tune_box/presentation/song_player/bloc/song_player_state.dart';
+import '../../../core/configs/theme/app_colors.dart';
 
 class SongPlayerScreen extends StatelessWidget {
   final SongEntity songEntity;
-  const SongPlayerScreen({
-    super.key,
-    required this.songEntity,
-  });
+  const SongPlayerScreen({required this.songEntity, super.key});
 
   @override
   Widget build(BuildContext context) {
+    String song = Uri.encodeComponent(songEntity.title);
     return Scaffold(
       appBar: BasicAppbar(
+        title: const Text(
+          'Now playing',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         action: IconButton(
           onPressed: () {},
           icon: const Icon(
-            Icons.more_vert,
+            Icons.more_vert_rounded,
           ),
-        ),
-        title: const Text(
-          "Now Playing",
-          style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: BlocProvider(
         create: (_) => SongPlayerCubit()
-          ..loadSong(
-              '${AppUrls.songFirestorage}${Uri.encodeComponent(songEntity.title)}.mp3?${AppUrls.mediaAlt}'),
+          ..loadSong('${AppUrls.songFirestorage}$song.mp3?${AppUrls.mediaAlt}'),
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _songCover(context),
-                const SizedBox(height: 20),
-                _songDetail(context),
-                const SizedBox(height: 20),
-                _songSlider(context),
-              ],
-            ),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          child: Builder(
+            builder: (context) {
+              return Column(
+                children: [
+                  _songCover(context),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  _songDetail(),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  _songPlayer(context)
+                ],
+              );
+            }
           ),
         ),
       ),
@@ -56,8 +59,7 @@ class SongPlayerScreen extends StatelessWidget {
   Widget _songCover(BuildContext context) {
     String image = Uri.encodeComponent(songEntity.title);
     return Container(
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.3,
+      height: MediaQuery.of(context).size.height / 2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
       ),
@@ -65,13 +67,12 @@ class SongPlayerScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
         child: Image.network(
           fit: BoxFit.cover,
-          '${AppUrls.coverFirestorage}$image.jpeg?${AppUrls.mediaAlt}',
-        ),
+          '${AppUrls.coverFirestorage}$image.jpeg?${AppUrls.mediaAlt}',),
       ),
     );
   }
 
-  Widget _songDetail(BuildContext context) {
+  Widget _songDetail() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -80,35 +81,35 @@ class SongPlayerScreen extends StatelessWidget {
           children: [
             Text(
               songEntity.title,
-              style: TextStyle(
-                fontSize: 25,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: context.isDarkMode ? Colors.white : Colors.black,
+                fontSize: 25,
               ),
             ),
-            const SizedBox(height: 5),
-            Text(songEntity.artist)
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              songEntity.artist,
+              style: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+              ),
+            ),
           ],
         ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.favorite_border_outlined,
-            size: 25,
-            color: AppColors.darkGrey,
-          ),
-        )
+        // FavoriteButton(
+        //   songEntity: songEntity
+        // )
       ],
     );
   }
 
-  Widget _songSlider(BuildContext context) {
+  Widget _songPlayer(BuildContext context) {
     return BlocBuilder<SongPlayerCubit, SongPlayerState>(
       builder: (context, state) {
         if (state is SongPlayerLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const CircularProgressIndicator();
         }
         if (state is SongPlayerLoaded) {
           return Column(
@@ -127,11 +128,54 @@ class SongPlayerScreen extends StatelessWidget {
                     .toDouble(),
                 onChanged: (value) {},
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    formatDuration(
+                      context.read<SongPlayerCubit>().songPosition,
+                    ),
+                  ),
+                  Text(
+                    formatDuration(
+                      context.read<SongPlayerCubit>().songDuration,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.read<SongPlayerCubit>().playOrPauseSong();
+                },
+                child: Container(
+                  height: 60,
+                  width: 60,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle, color: AppColors.primary),
+                  child: Icon(
+                      context.read<SongPlayerCubit>().audioPlayer.playing
+                          ? Icons.pause
+                          : Icons.play_arrow),
+                ),
+              ),
             ],
           );
         }
+
         return Container();
       },
     );
+  }
+
+  String formatDuration(Duration duration) {
+    final minutes = duration.inMinutes.remainder(60);
+    final seconds = duration.inSeconds.remainder(60);
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 }
