@@ -9,6 +9,7 @@ abstract class AuthFirebaseService {
   Future<Either> signUp(CreateUserReq createUserReq);
   Future<Either> signIn(SigninUserReq signUserReq);
   Future<void> signOut();
+  Future<Either> getUser();
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService {
@@ -58,5 +59,15 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
     } on FirebaseAuthException catch (e) {
       return Left(e.toString());
     }
+  }
+
+  @override
+  Future<Either> getUser() {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    final user = firebaseFirestore.collection('users').doc(firebaseAuth.currentUser?.uid).get();
+
+    
   }
 }

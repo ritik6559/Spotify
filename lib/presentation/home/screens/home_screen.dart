@@ -5,6 +5,7 @@ import 'package:tune_box/common/widgets/app_bar.dart';
 import 'package:tune_box/core/configs/theme/app_colors.dart';
 import 'package:tune_box/presentation/home/widgets/news_songs_tile.dart';
 import 'package:tune_box/presentation/home/widgets/play_list_tile.dart';
+import 'package:tune_box/presentation/profile/screen/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,6 +28,16 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BasicAppbar(
+        action: IconButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const ProfileScreen(),
+              ),
+            );
+          },
+          icon: const Icon(Icons.person),
+        ),
         hideBack: true,
         title: SvgPicture.asset(
           'assets/vectors/spotify_logo.svg',
