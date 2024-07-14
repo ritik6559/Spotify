@@ -137,7 +137,7 @@ class SongFirebaseServiceImpl extends SongFirebaseService {
       QuerySnapshot favoritesSnapshot = await firebaseFirestore.collection(
         'users'
       ).doc(uId)
-      .collection('Favorites')
+      .collection('favorites')
       .get();
       
       for (var element in favoritesSnapshot.docs) { 

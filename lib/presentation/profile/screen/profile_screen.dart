@@ -30,6 +30,7 @@ class ProfileScreen extends StatelessWidget {
       body: Column(
         children: [
           _profileInfo(context),
+          const SizedBox(height: 20),
           _favoriteSongs(),
         ],
       ),
@@ -90,7 +91,6 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      
                     ],
                   ),
                 );
@@ -110,109 +110,130 @@ class ProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => FavoriteSongsCubit()..getFavoriteSongs(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'FAVORITE SONGS',
+              'Favorite Songs',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            
             const SizedBox(
               height: 20,
             ),
-            BlocBuilder<FavoriteSongsCubit,FavoriteSongsState>(
-              builder: (context,state) {
-                if(state is FavoriteSongsLoading) {
-                  return const CircularProgressIndicator();
+            BlocBuilder<FavoriteSongsCubit, FavoriteSongsState>(
+              builder: (context, state) {
+                if (state is FavoriteSongsLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
-                if(state is FavoriteSongsLoaded) {
+                if (state is FavoriteSongsLoaded) {
+                  if (state.favoriteSongs.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        "Add songs",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  }
                   return ListView.separated(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: (){
-                          Navigator.push(
-                            context, 
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => SongPlayerScreen(songEntity: state.favoriteSongs[index])
-                            )
-                          );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  height: 70,
-                                  width: 70,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        '${AppUrls.coverFirestorage}${Uri.encodeComponent(state.favoriteSongs[index].title)}.jpeg?${AppUrls.mediaAlt}'
-                                      )
-                                    )
-                                  ),
-                                ),
-                      
-                                const SizedBox(width: 10, ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        state.favoriteSongs[index].title,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    SongPlayerScreen(
+                                        songEntity: state.favoriteSongs[index]),
+                              ),
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                color: Colors.black.withOpacity(0.5),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 70,
+                                      width: 70,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                  '${AppUrls.coverFirestorage}${Uri.encodeComponent(state.favoriteSongs[index].title)}.jpeg?${AppUrls.mediaAlt}'))),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          state.favoriteSongs[index].title,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
                                         ),
-                                      ),
-                                      const SizedBox(height: 5, ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
                                         Text(
                                           state.favoriteSongs[index].artist,
                                           style: const TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 11
-                                          ),
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 11),
                                         ),
-                                    ],
-                                  )
-                      
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  state.favoriteSongs[index].duration.toString().replaceAll('.', ':')
+                                      ],
+                                    )
+                                  ],
                                 ),
-                                const SizedBox(width: 20, ),
+                              ),
+                              Row(
+                                children: [
+                                  Text(state.favoriteSongs[index].duration
+                                      .toString()
+                                      .replaceAll('.', ':')),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
                                   FavoriteButton(
                                     songEntity: state.favoriteSongs[index],
                                     key: UniqueKey(),
-                                    function: (){
-                                      context.read<FavoriteSongsCubit>().removeSong(index);
+                                    function: () {
+                                      context
+                                          .read<FavoriteSongsCubit>()
+                                          .removeSong(index);
                                     },
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(height: 20,),
-                    itemCount: state.favoriteSongs.length
-                 );
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => const SizedBox(
+                            height: 20,
+                          ),
+                      itemCount: state.favoriteSongs.length);
                 }
-                if(state is FavoriteSongsFailure) {
-                  return const Text(
-                    'Please try again.'
-                  );
+                if (state is FavoriteSongsFailure) {
+                  return const Text('Please try again.');
                 }
                 return Container();
-              } ,
+              },
             )
           ],
         ),

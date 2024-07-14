@@ -10,27 +10,29 @@ class FavoriteSongsCubit extends Cubit<FavoriteSongsState> {
   List<SongEntity> favoriteSongs = [];
 
   Future<void> getFavoriteSongs() async {
-    var result = await sl<GetFavoriteSongUsecase>().call();
+    try {
+      var result = await sl<GetFavoriteSongUsecase>().call();
 
-    result.fold(
-      (l) {
-        emit(
-          FavoriteSongsFailure(),
-        );
-      },
-      (r) {
-        favoriteSongs = r;
-        emit(
-          FavoriteSongsLoaded(favoriteSongs: favoriteSongs),
-        );
-      },
-    );
+      result.fold(
+        (l) {
+          emit(
+            FavoriteSongsFailure(),
+          );
+        },
+        (r) {
+          favoriteSongs = r;
+          emit(
+            FavoriteSongsLoaded(favoriteSongs: favoriteSongs),
+          );
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   void removeSong(int index) {
-   favoriteSongs.removeAt(index);
-   emit(
-     FavoriteSongsLoaded(favoriteSongs: favoriteSongs)
-   );
- }
+    favoriteSongs.removeAt(index);
+    emit(FavoriteSongsLoaded(favoriteSongs: favoriteSongs));
+  }
 }

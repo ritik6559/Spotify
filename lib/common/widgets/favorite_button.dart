@@ -6,55 +6,54 @@ import 'package:tune_box/domain/entities/song/song_entity.dart';
 
 class FavoriteButton extends StatelessWidget {
   final SongEntity songEntity;
-  final Function? function;
+  final Function ? function;
   const FavoriteButton({
-    super.key,
     required this.songEntity,
     this.function,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => FavoriteButtonCubit(),
-      child: BlocBuilder<FavoriteButtonCubit, FavoriteButtonState>(
+      create: (context) => FavoriteButtonCubit(),
+      child: BlocBuilder<FavoriteButtonCubit,FavoriteButtonState>(
         builder: (context, state) {
-          if (state is FavoriteButtonInitial) {
+          if(state is FavoriteButtonInitial) {
             return IconButton(
-              onPressed: () {
-                context
-                    .read<FavoriteButtonCubit>()
-                    .favoriteButtonUpdate(songEntity.songId);
+              onPressed: () async {
+                await context.read<FavoriteButtonCubit>().favoriteButtonUpdated(
+                  songEntity.songId
+                );
                 if (function != null) {
                   function!();
                 }
               },
               icon: Icon(
-                songEntity.isFavorite
-                    ? Icons.favorite_rounded
-                    : Icons.favorite_outline_rounded,
-                color: songEntity.isFavorite ? Colors.red : null,
+                songEntity.isFavorite ? Icons.favorite : Icons.favorite_outline_outlined,
                 size: 25,
-              ),
+                color: songEntity.isFavorite ? Colors.red : null,
+              )
             );
           }
-          if (state is FavoriteButtonUpdate) {
+
+          if(state is FavoriteButtonUpdated) {
             return IconButton(
               onPressed: () {
-                context
-                    .read<FavoriteButtonCubit>()
-                    .favoriteButtonUpdate(songEntity.songId);
+                 context.read<FavoriteButtonCubit>().favoriteButtonUpdated(
+                  songEntity.songId
+                );
               },
               icon: Icon(
-                state.isFavorite
-                    ? Icons.favorite_rounded
-                    : Icons.favorite_outline_rounded,
-                color: state.isFavorite ? Colors.red : null,
+                state.isFavorite ? Icons.favorite : Icons.favorite_outline_outlined,
                 size: 25,
-              ),
+                color: songEntity.isFavorite ? Colors.red : null,
+              )
             );
           }
+
           return Container();
+
         },
       ),
     );
