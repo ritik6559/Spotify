@@ -43,13 +43,33 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
   @override
   Future<Either> signUp(CreateUserReq createUserReq) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+
+     var data =  await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: createUserReq.email,
-        password: createUserReq.password,
+        password:createUserReq.password
       );
-      return const Right("Signup was SuccessFul");
-    } on FirebaseAuthException catch (e) {
-      return Left(e.toString());
+      
+      FirebaseFirestore.instance.collection('users').doc(data.user?.uid)
+      .set(
+        {
+          'name' : createUserReq.name,
+          'email' : data.user?.email,
+        }
+      );
+
+      return const Right('Signup was Successful');
+
+    } on FirebaseAuthException catch(e) {
+      String message = '';
+      
+      if(e.code == 'weak-password') {
+        message = 'The password provided is too weak';
+      } else if (e.code == 'email-already-in-use') {
+        message = 'An account already exists with that email.';
+      }
+
+
+      return Left(message);
     }
   }
 
