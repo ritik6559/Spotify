@@ -5,6 +5,7 @@ import 'package:tune_box/data/sources/auth/auth_firebase_service.dart';
 import 'package:tune_box/data/sources/songs/song_firebase_service.dart';
 import 'package:tune_box/domain/repository/auth/auth_repository.dart';
 import 'package:tune_box/domain/repository/song/song_repository.dart';
+import 'package:tune_box/domain/usecases/auth/get_user_usecase.dart';
 import 'package:tune_box/domain/usecases/auth/signin_usecase.dart';
 import 'package:tune_box/domain/usecases/auth/signup_usecase.dart';
 import 'package:tune_box/domain/usecases/song/add_remove_favorite_use_case.dart';
@@ -56,6 +57,10 @@ Future<void> initializeDependencies() async {
 
  sl.registerSingleton<IsFavoriteSongUseCase>(
   IsFavoriteSongUseCase()
+ );
+
+ sl.registerSingleton<GetUserUsecase>(
+  GetUserUsecase()
  );
 }
 
