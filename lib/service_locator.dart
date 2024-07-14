@@ -9,6 +9,7 @@ import 'package:tune_box/domain/usecases/auth/get_user_usecase.dart';
 import 'package:tune_box/domain/usecases/auth/signin_usecase.dart';
 import 'package:tune_box/domain/usecases/auth/signup_usecase.dart';
 import 'package:tune_box/domain/usecases/song/add_remove_favorite_use_case.dart';
+import 'package:tune_box/domain/usecases/song/get_favorite_song_usecase.dart';
 import 'package:tune_box/domain/usecases/song/get_news_songs.dart';
 import 'package:tune_box/domain/usecases/song/get_playlist.dart';
 import 'package:tune_box/domain/usecases/song/is_favorite_song.dart';
@@ -61,6 +62,10 @@ Future<void> initializeDependencies() async {
 
  sl.registerSingleton<GetUserUsecase>(
   GetUserUsecase()
+ );
+
+ sl.registerSingleton<GetFavoriteSongUsecase>(
+  GetFavoriteSongUsecase()
  );
 }
 

@@ -6,9 +6,11 @@ import 'package:tune_box/domain/entities/song/song_entity.dart';
 
 class FavoriteButton extends StatelessWidget {
   final SongEntity songEntity;
+  final Function? function;
   const FavoriteButton({
     super.key,
     required this.songEntity,
+    this.function,
   });
 
   @override
@@ -23,6 +25,9 @@ class FavoriteButton extends StatelessWidget {
                 context
                     .read<FavoriteButtonCubit>()
                     .favoriteButtonUpdate(songEntity.songId);
+                if (function != null) {
+                  function!();
+                }
               },
               icon: Icon(
                 songEntity.isFavorite
