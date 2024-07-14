@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tune_box/core/configs/constants/constants.dart';
 import 'package:tune_box/data/models/auth/create_user_req.dart';
 import 'package:tune_box/data/models/auth/signin_user_req.dart';
 import 'package:tune_box/data/models/user/user_model.dart';
+import 'package:tune_box/domain/entities/auth/user.dart';
 
 abstract class AuthFirebaseService {
   Future<Either> signUp(CreateUserReq createUserReq);
@@ -41,20 +43,10 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
   @override
   Future<Either> signUp(CreateUserReq createUserReq) async {
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: createUserReq.email,
         password: createUserReq.password,
       );
-
-      FirebaseFirestore.instance
-          .collection("users")
-          .doc(userCredential.user?.uid)
-          .set(UserModel(
-            id: userCredential.user!.uid,
-            name: createUserReq.name,
-            email: createUserReq.email,
-          ).toMap());
       return const Right("Signup was SuccessFul");
     } on FirebaseAuthException catch (e) {
       return Left(e.toString());
@@ -62,12 +54,25 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
   }
 
   @override
-  Future<Either> getUser() {
-    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  Future<Either> getUser() async {
+    try {
+      FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-    final user = firebaseFirestore.collection('users').doc(firebaseAuth.currentUser?.uid).get();
+      final user = await firebaseFirestore
+          .collection('users')
+          .doc(firebaseAuth.currentUser?.uid)
+          .get();
 
-    
+      UserModel userModel =
+          UserModel.fromJson(user.data() as Map<String, dynamic>);
+      userModel.imageURL =
+          firebaseAuth.currentUser?.photoURL ?? AppUrls.avatarDefault;
+
+      UserEntity userEntity = userModel.toEntity();
+      return Right(userEntity);
+    } catch (e) {
+      return Left("An error occured.");
+    }
   }
 }

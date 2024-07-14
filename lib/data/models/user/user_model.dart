@@ -1,39 +1,35 @@
 
+import 'package:tune_box/domain/entities/auth/user.dart';
+
 class UserModel {
-  final String id;
-  final String name;
-  final String email;
+
+  String ? fullName;
+  String ? email;
+  String ? imageURL;
+
   UserModel({
-    required this.id,
-    required this.name,
-    required this.email,
+    this.fullName,
+    this.email,
+    this.imageURL
   });
+  
 
-  UserModel copyWith({
-    String? id,
-    String? name,
-    String? email,
-  }) {
-    return UserModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      email: email ?? this.email,
-    );
+   UserModel.fromJson(Map<String,dynamic> data) {
+    fullName = data['name'];
+    email = data['email'];
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'email': email,
-    };
-  }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
-      id: map['id'] ?? '',
-      name: map['name'] ?? '',
-      email: map['email'] ?? '',
+  
+}
+
+extension UserModelX on UserModel {
+
+  UserEntity toEntity() {
+    return UserEntity(
+      email: email,
+      fullName: fullName,
+      imageURL: imageURL
     );
   }
 }
