@@ -84,7 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           (l) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(l),
+                                content: Text(l.toString()),
                               ),
                             );
                           },
